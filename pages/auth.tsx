@@ -3,6 +3,8 @@ import axios from "axios";
 import React, { useCallback, useState } from "react";
 import { useRouter } from "next/router";
 import { signIn } from "next-auth/react";
+import { FaGithub } from "react-icons/fa";
+import { FcGoogle } from "react-icons/fc";
 export default function auth() {
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
@@ -45,7 +47,7 @@ export default function auth() {
 
   return (
     <div className="relative h-full bg-[url('/assets/imgs/hero.jpg')] bg-no-repeat bg-center bg-fixed bg-cover">
-      <div className=" w-full h-full lg:bg-opacity-50">
+      <div className="bg-black w-full h-full lg:bg-opacity-50">
         <div className="px-12 py-5">
           <img src="/assets/imgs/logo.png" alt="logo" className="h-12" />
           <div className="flex justify-center">
@@ -92,6 +94,42 @@ export default function auth() {
               >
                 {variant === "login" ? "Login" : "Register"}
               </button>
+              <div className="flex flex-row items-center gap-4 mt-8 justify-center">
+                <div
+                  onClick={() => signIn("github", { callbackUrl: "/" })}
+                  className="
+                w-10
+                h-10
+                bg-white
+                rounded-full
+                flex 
+                items-center
+                justify-center
+                cursor-pointer
+                hover:opacity-80
+                transition
+                "
+                >
+                  <FaGithub size={30} />
+                </div>
+                <div
+                  onClick={() => signIn("google", { callbackUrl: "/" })}
+                  className="
+                w-10
+                h-10
+                bg-white
+                rounded-full
+                flex 
+                items-center
+                justify-center
+                cursor-pointer
+                hover:opacity-80
+                transition
+                "
+                >
+                  <FcGoogle size={30} />
+                </div>
+              </div>
               <p className="text-neutral-500 mt-12">
                 {variant === "login"
                   ? "First time using Netflix ? "
