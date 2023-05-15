@@ -1,16 +1,48 @@
 import Input from "@/components/Input";
+import axios from "axios";
 import React, { useCallback, useState } from "react";
-
+import { useRouter } from "next/router";
+import { signIn } from "next-auth/react";
 export default function auth() {
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
   const [variant, setVariant] = useState("login");
+  const router = useRouter();
   const toggleVariant = useCallback(() => {
     setVariant((currVariant) =>
       currVariant === "login" ? "register" : "login"
     );
   }, []);
+
+  const login = useCallback(async () => {
+    try {
+      await signIn("credentials", {
+        email,
+        password,
+        redirect: false,
+        callbackUrl: "/",
+      });
+
+      router.push("/");
+    } catch (error) {
+      console.log(error);
+    }
+  }, [email, password, router]);
+
+  const register = useCallback(async () => {
+    try {
+      await axios.post("/api/register", {
+        email,
+        name,
+        password,
+      });
+      login();
+    } catch (err) {
+      console.log(err);
+    }
+  }, [email, name, password]);
+
   return (
     <div className="relative h-full bg-[url('/assets/imgs/hero.jpg')] bg-no-repeat bg-center bg-fixed bg-cover">
       <div className=" w-full h-full lg:bg-opacity-50">
@@ -35,15 +67,6 @@ export default function auth() {
                 )}
                 <Input
                   onChange={(e: any) => {
-                    setPassword(e.target.value);
-                  }}
-                  id="password"
-                  type="password"
-                  label="Password"
-                  value={password}
-                />
-                <Input
-                  onChange={(e: any) => {
                     setEmail(e.target.value);
                   }}
                   id="email"
@@ -51,8 +74,18 @@ export default function auth() {
                   label="Email"
                   value={email}
                 />
+                <Input
+                  onChange={(e: any) => {
+                    setPassword(e.target.value);
+                  }}
+                  id="password"
+                  type="password"
+                  label="Password"
+                  value={password}
+                />
               </div>
               <button
+                onClick={variant === "login" ? login : register}
                 className="bg-red-600 py-3 text-white rounded-md w-full
               mt-5 transition hover:bg-red-700
               "
