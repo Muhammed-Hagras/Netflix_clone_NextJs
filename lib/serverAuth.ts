@@ -8,7 +8,7 @@ const serverAuth = async (req: NextApiRequest) => {
 
   //if user does not in the session
   if (!session?.user?.email) {
-    throw new Error("Not signed in");
+    throw new Error("Not signed in ");
   }
 
   //Check if user does not exists
@@ -19,7 +19,7 @@ const serverAuth = async (req: NextApiRequest) => {
   });
 
   if (!currUser) {
-    throw new Error("Not signed in");
+    throw new Error("Not signed in ");
   }
 
   return { currUser };
