@@ -3,6 +3,7 @@ import { without } from "lodash";
 import prismadb from "@/lib/prismadb";
 import { NextApiRequest, NextApiResponse } from "next";
 import serverAuth from "@/lib/serverAuth";
+import useCurrUser from "@/hooks/useCurrUser";
 
 export default async function handler(
   req: NextApiRequest,
@@ -10,8 +11,10 @@ export default async function handler(
 ) {
   try {
     if (req.method === "POST") {
+      console.log("favorite here");
       const { currUser } = await serverAuth(req);
-      // console.log({ currUser });
+      // const { data: currUser } = useCurrUser();
+      console.log({ currUser });
 
       const { movieId } = req.body;
 

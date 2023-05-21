@@ -11,7 +11,7 @@ interface favoriteButtonProps {
 const FavoriteButton: React.FC<favoriteButtonProps> = ({ movieId }) => {
   const { mutate: mutateFavorites } = useFavorites();
   const { data: currUser, mutate } = useCurrUser();
-
+  //   console.log(currUser);
   //check if this movie is in favorites
   const isFavorite = useMemo(() => {
     const list = currUser?.favoriteIds || [];
@@ -22,7 +22,9 @@ const FavoriteButton: React.FC<favoriteButtonProps> = ({ movieId }) => {
     let response;
 
     if (isFavorite) {
-      response = await axios.delete("api/favorite", { data: { movieId } });
+      response = await axios.delete("api/favorite", {
+        data: { movieId },
+      });
     } else {
       response = await axios.post("api/favorite", { movieId });
     }

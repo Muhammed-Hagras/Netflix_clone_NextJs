@@ -13,7 +13,6 @@ export default async function handler(
 
   try {
     const { currUser } = await serverAuth(req);
-    console.log({ currUser });
     const movies = await prismadb.movie.findMany();
     return res.status(200).json(movies);
   } catch (error) {
